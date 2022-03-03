@@ -30,7 +30,7 @@ services:
       dockerfile: ./infra/docker/nginx/Dockerfile
     ports:
       - target: 80
-        published: 80
+        published: 8088
         protocol: tcp
         mode: host
     volumes:
@@ -44,7 +44,7 @@ services:
       dockerfile: ./infra/docker/mysql/Dockerfile
     ports:
       - target: 3306
-        published: 3306
+        published: 3308
         protocol: tcp
         mode: host
     volumes:
