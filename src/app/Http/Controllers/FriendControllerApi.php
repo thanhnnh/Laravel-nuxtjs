@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\FriendService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class FriendControllerApi extends Controller
 {
+    protected FriendService $friendService;
+
+    public function __construct(FriendService $friendService)
+    {
+        $this->friendService = $friendService;
+    }
+
     public function index() {
-        return response([
-            'friends' => request()->user()->friends(),
-            'requests' => request()->user()->pending_friend_requests(),
-        ]);
+       return $this->friendService->getFriend();
     }
 
     /**
@@ -21,7 +28,7 @@ class FriendControllerApi extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, User $user) {
-        return $request->user()->add_friend($user->id);
+        return $this->friendService->creatFriend($request, $user);
     }
 
     /**
@@ -43,7 +50,7 @@ class FriendControllerApi extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user) {
-        return $request->user()->accept_friend($user->id);
+       return $this->friendService->updateFriend($request, $user);
     }
 
     /**
@@ -53,7 +60,7 @@ class FriendControllerApi extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user) {
-        return request()->user()->delete_friend($user->id);
+        return $this->friendService->deleteFriend($user);
     }
 
     /**
@@ -63,6 +70,6 @@ class FriendControllerApi extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deny(User $user) {
-        return request()->user()->deny_friend($user->id);
+        return $this->friendService->denyUser($user);
     }
 }

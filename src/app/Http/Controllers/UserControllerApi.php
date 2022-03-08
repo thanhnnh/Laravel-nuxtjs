@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class UserControllerApi extends Controller
 {
+    protected UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function index() {
-        return response(['users' => User::where('id', '!=', request()->user()->id)->get()]);
+        return $this->userService->getUser();
     }
 
     /**
@@ -28,12 +37,7 @@ class UserControllerApi extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(User $user) {
-        return response([
-            'user' => $user,
-            'isFriendsWith' => request()->user()->is_friends_with($user->id),
-            'friendRequestSentTo' => request()->user()->has_pending_friend_request_sent_to($user->id),
-            'friendRequestSentFrom' => request()->user()->has_pending_friend_request_from($user->id),
-        ]);
+        return $this->userService->showUser($user);
     }
 
     /**
