@@ -2,7 +2,7 @@
     <div class="container mx-auto mt-16">
         <div class="flex space-x-6 mx-auto">
             <div class="flex flex-col items-end w-1/3">
-                <h2 class="text-3xl">{{ user.username }}</h2>
+                <h2 class="text-3xl">{{ user.name }}</h2>
 
                 <template v-if="friendRequestSentFrom">
                     <div class="flex">
@@ -57,7 +57,6 @@
                     <div class="flex flex-col">
                         <span class="text-xl ml-2">{{ user.name }}</span>
                         <span class="text-xl ml-2">{{ user.email }}</span>
-                        <span class="text-xl ml-2">{{ user.username }}</span>
                     </div>
                 </div>
             </div>
@@ -68,46 +67,90 @@
 <script>
     export default {
         middleware: 'auth',
-        data:() => ({
-            user: {},
-            isFriendsWith: '',
-            friendRequestSentTo: '',
-            friendRequestSentFrom: ''
-        }),
-        created() {
-            this.getUser()
-        },
-        methods: {
-            getUser() {
-                this.$axios.$get('/api/user/'+this.$route.params.id)
-                    .then((resp)=>{
-                        this.user = resp.user
-                        this.isFriendsWith = resp.isFriendsWith
-                        this.friendRequestSentTo = resp.friendRequestSentTo
-                        this.friendRequestSentFrom = resp.friendRequestSentFrom
-                    })
-                    .catch((err)=>{console.log(err)})
-            },
-            addFriend() {
-                this.$axios.$post('/api/friends/'+this.$route.params.id)
-                    .then((resp) => this.getUser())
-                    .catch((err)=>{console.log(err)})
-            },
-            acceptFriend() {
-                this.$axios.$patch('/api/friends/'+this.$route.params.id)
-                    .then((resp) => this.getUser())
-                    .catch((err)=>{console.log(err)})
-            },
-            denyFriend() {
-                this.$axios.$get('/api/friends/'+this.$route.params.id)
-                    .then((resp) => this.getUser())
-                    .catch((err)=>{console.log(err)})
-            },
-            deleteFriend() {
-                this.$axios.$delete('/api/friends/'+this.$route.params.id)
-                    .then((resp) => this.getUser())
-                    .catch((err)=>{console.log(err)})
+        // url = this.$route.params.id,
+        // created() {
+        //     this.getUser()
+        // },
+        // methods: {
+            // async getUser() {
+            //     console.log(this.$route.params.id)
+            //     this.$axios.$get('/api/user/'+this.$route.params.id)
+            //         .then((resp)=>{
+            //             this.user = resp.user
+            //             this.isFriendsWith = resp.isFriendsWith
+            //             this.friendRequestSentTo = resp.friendRequestSentTo
+            //             this.friendRequestSentFrom = resp.friendRequestSentFrom
+            //         })
+            //         .catch((err)=>{console.log(err)})
+            // },
+            // addFriend() {
+            //     this.$axios.$post('/api/friends/'+this.$route.params.id)
+            //         .then((resp) => this.getUser())
+            //         .catch((err)=>{console.log(err)})
+            // },
+            // acceptFriend() {
+            //     this.$axios.$patch('/api/friends/'+this.$route.params.id)
+            //         .then((resp) => this.getUser())
+            //         .catch((err)=>{console.log(err)})
+            // },
+            // denyFriend() {
+            //     this.$axios.$get('/api/friends/'+this.$route.params.id)
+            //         .then((resp) => this.getUser())
+            //         .catch((err)=>{console.log(err)})
+            // },
+            // deleteFriend() {
+            //     this.$axios.$delete('/api/friends/'+this.$route.params.id)
+            //         .then((resp) => this.getUser())
+            //         .catch((err)=>{console.log(err)})
+            // }
+        // }
+        async asyncData({app, params}) {
+            console.log(params)
+            const { data } = await app.$getUser(params.id)
+            console.log(data)
+            return {
+                user: data.user,
+                isFriendsWith: data.isFriendsWith,
+                friendRequestSentTo: data.friendRequestSentTo,
+                friendRequestSentFrom: data.friendRequestSentFrom
             }
-        }
+        },
+
+        methods: {
+            async getFriend () {
+                const {data} = await getUser()
+                this.user = data.user
+                this.isFriendsWith = data.isFriendsWith
+                this.friendRequestSentTo = data.friendRequestSentTo
+                this.friendRequestSentFrom = data.friendRequestSentFrom
+            },
+
+            async getUpdateFriend () {
+                const {data} = await getUser()
+                this.user = data.user
+                this.isFriendsWith = data.isFriendsWith
+                this.friendRequestSentTo = data.friendRequestSentTo
+                this.friendRequestSentFrom = data.friendRequestSentFrom
+            },
+
+            async getDenyFriend () {
+                const {data} = await getUser()
+                this.user = data.user
+                this.isFriendsWith = data.isFriendsWith
+                this.friendRequestSentTo = data.friendRequestSentTo
+                this.friendRequestSentFrom = data.friendRequestSentFrom
+            },
+
+            async getDeleteFriend () {
+                const {data} = await getUser()
+                this.user = data.user
+                this.isFriendsWith = data.isFriendsWith
+                this.friendRequestSentTo = data.friendRequestSentTo
+                this.friendRequestSentFrom = data.friendRequestSentFrom
+            }
+        },
+
+    }
+
     }
 </script>

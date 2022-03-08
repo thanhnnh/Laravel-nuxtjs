@@ -5,7 +5,7 @@
             <div class="flex-1 border-l mt-3">
                 <div v-for="user in users" :key="user.id" class="flex mb-3 ml-3">
                     <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8c2lsaG91ZXR0ZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="" class="w-8 h-8 rounded-full object-cover">
-                    <NuxtLink :to="`/users/${user.id}`" class="text-xl ml-2">{{ user.username }}</NuxtLink>
+                    <NuxtLink :to="`/users/${user.id}`" class="text-xl ml-2">{{ user.name }}</NuxtLink>
                 </div>
             </div>
         </div>
@@ -15,20 +15,17 @@
 <script>
     export default {
         middleware: 'auth',
-        data:() => ({
-            users: []
-        }),
-        mounted() {
-            this.getUsers()
+        data() {
+           return {
+               users: []
+           }
         },
-        methods: {
-            getUsers() {
-                this.$axios.$get('/api/users')
-                    .then((resp) => {
-                        this.users = resp.users
-                    })
-                    .catch((err) => {console.log(err)})
+        async asyncData({ app }) {
+            // console.log("sync data")
+            const { data } = await app.$getUsers()
+            return {
+                users: data.users
             }
-        }
+        },
     }
 </script>
