@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\Friendable;
 
-class FriendService {
+class FriendModeProxy {
 
     public function getFriend() {
         return response([
