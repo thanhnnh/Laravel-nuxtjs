@@ -12,14 +12,25 @@ export default {
             { hid: 'description', name: 'description', content: '' }
         ],
         link: [
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-        ]
+            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+            { rel: 'stylesheet', type: 'text/css', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'},
+            { rel: 'stylesheet', id: 'bootstrap-css', href: '//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'},
+        ],
+        script: [
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js' },
+            { src: 'maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js' },
+        ],
     },
 
     loading: false,
 
     // Global CSS: https://go.nuxtjs.dev/config-css
-    css: [],
+    css: [
+        // CSS file in the project
+        '@/assets/css/main.css',
+        // SCSS file in the project
+        // '@/assets/css/main.css'
+    ],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
@@ -63,7 +74,7 @@ export default {
                     },
                     user: {
                         url: '/api/user'
-                    },
+                    }
                 },
                 user: {
                     property: false

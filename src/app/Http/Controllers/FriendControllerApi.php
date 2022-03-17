@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\FriendService;
-use App\Services\UserService;
+use App\Services\FriendManagement\FriendService;
 use Illuminate\Http\Request;
 use App\Models\User;
 

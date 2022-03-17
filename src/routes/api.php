@@ -27,4 +27,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/friends/{user}', [\App\Http\Controllers\FriendControllerApi::class, 'update']);
     Route::get('/friends/{user}', [\App\Http\Controllers\FriendControllerApi::class, 'deny']);
     Route::delete('/friends/{user}', [\App\Http\Controllers\FriendControllerApi::class, 'destroy']);
+
+    Route::get('/chats', [\App\Http\Controllers\ChatControllerApi::class, 'index']);
+    Route::get('/chats/{chats}', [\App\Http\Controllers\ChatControllerApi::class, 'show']);
+
+    Route::post('/chats/history/{id}', [\App\Http\Controllers\ChatControllerApi::class, 'history']);
+    Route::post('/chats/send-chat',  [\App\Http\Controllers\ChatControllerApi::class, 'store']);
+
 });

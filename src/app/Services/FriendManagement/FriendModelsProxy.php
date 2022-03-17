@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Services;
-
+namespace App\Services\FriendManagement;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Traits\Friendable;
 
-class FriendModeProxy {
-
+class FriendModelsProxy
+{
     public function getFriend() {
         return response([
             'friends' => request()->user()->friends(),

@@ -1,37 +1,36 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\FriendManagement;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Traits\Friendable;
 
-class FriendService {
+class FriendService
+{
+    protected FriendModelsProxy $friendModelsProxy;
 
-    protected FriendService $friendService;
-
-    public function __construct(FriendService $friendService)
+    public function __construct(FriendModelsProxy $friendModelsProxy)
     {
-        $this->friendService = $friendService;
+        $this->friendModelsProxy = $friendModelsProxy;
     }
 
     public function getFriend() {
-        return $this->friendService->getFriend();
+        return $this->friendModelsProxy->getFriend();
     }
 
     public function creatFriend(Request $request, User $user) {
-        return $this->friendService->creatFriend($request, $user);
+        return $this->friendModelsProxy->creatFriend($request, $user);
     }
 
     public function updateFriend(Request $request, User $user) {
-        return $this->friendService->updateFriend($request, $user);
+        return $this->friendModelsProxy->updateFriend($request, $user);
     }
 
     public function deleteFriend(User $user) {
-        return $this->friendService->deleteFriend($user);
+        return $this->friendModelsProxy->deleteFriend($user);
     }
 
     public function denyUser(User $user) {
-        return $this->friendService->denyUser($user);
+        return $this->friendModelsProxy->denyUser($user);
     }
 }

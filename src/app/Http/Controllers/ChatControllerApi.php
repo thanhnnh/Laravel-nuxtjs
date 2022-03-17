@@ -3,21 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\ChatManagement\ChatService;
+use App\Services\FriendManagement\FriendService;
 use App\Services\UserManagerment\UserService;
 use Illuminate\Http\Request;
+use App\Models\Chat;
+use Illuminate\Support\Facades\Auth;
 
-class UserControllerApi extends Controller
+class ChatControllerApi extends Controller
 {
-    protected UserService $userService;
+    protected ChatService $chatService;
 
-    public function __construct(UserService $userService)
+    public function __construct(ChatService $chatService)
     {
-        $this->userService = $userService;
+        $this->chatService = $chatService;
     }
 
+
+
     public function index() {
-//        dd(1);
-        return $this->userService->getUser();
+        return $this->chatService->showFriend();
     }
 
     /**
@@ -28,17 +33,17 @@ class UserControllerApi extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->chatService->sendMessage($request);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $chat
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user) {
-        return $this->userService->showUser($user);
+    public function show($chat) {
+        return $this->chatService->getFriend($chat);
     }
 
     /**
@@ -62,5 +67,9 @@ class UserControllerApi extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function history (Request $request, $id) {
+        return $this->chatService->getMessage($request, $id);
     }
 }

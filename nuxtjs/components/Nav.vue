@@ -6,14 +6,20 @@
                 <template v-if="this.$auth.loggedIn">
                     <span>Welcome,
                         <NuxtLink to="#" class="capitalize hover:text-teal-200">
-                            {{ this.$auth.user.username }}
+                            {{ this.$auth.user.name }}
                         </NuxtLink>
                     </span>
                         <NuxtLink to="/users" class="hover:text-teal-200">
                             USERS
                         </NuxtLink>
+                        <NuxtLink to="/friends" class="hover:text-teal-200">
+                            FRIENDS
+                        </NuxtLink>
                         <NuxtLink to="/dashboard" class="hover:text-teal-200">
                             DASHBOARD
+                        </NuxtLink>
+                        <NuxtLink to="/chats" class="hover:text-teal-200">
+                            CHAT
                         </NuxtLink>
                         <a href="#" @click.prevent="logout" class="hover:text-teal-200">LOGOUT</a>
                 </template>

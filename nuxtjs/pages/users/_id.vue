@@ -6,7 +6,7 @@
 
                 <template v-if="friendRequestSentFrom">
                     <div class="flex">
-                        <form @submit.prevent="acceptFriend">
+                        <form @submit.prevent="getUpdateFriend">
                             <green-button type="submit">
                                 Accept
                                 <svg aria-hidden="true" data-prefix="fas" data-icon="user-plus" class="fill-current w-4 h-4 ml-1 text-white svg-inline--fa fa-user-plus fa-w-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -14,7 +14,7 @@
                                 </svg>
                             </green-button>
                         </form>
-                        <form @submit.prevent="denyFriend" class="ml-3">
+                        <form @submit.prevent="getDenyFriend" class="ml-3">
                             <red-button type="submit">
                                 Ignore
                                 <svg aria-hidden="true" data-prefix="fas" data-icon="user-minus" class="fill-current w-4 h-4 ml-1 text-white svg-inline--fa fa-user-minus fa-w-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -30,7 +30,7 @@
                 </template>
 
                 <template v-else-if="isFriendsWith">
-                    <form @submit.prevent="deleteFriend">
+                    <form @submit.prevent="getDeleteFriend">
                         <red-button type="submit">
                             Unfriend
                             <svg aria-hidden="true" data-prefix="fas" data-icon="user-minus" class="fill-current w-4 h-4 ml-1 text-white svg-inline--fa fa-user-minus fa-w-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -41,7 +41,7 @@
                 </template>
 
                 <template v-else-if="this.$auth.user.id != this.user.id">
-                    <form @submit.prevent="addFriend">
+                    <form @submit.prevent="getFriend">
                         <blue-button type="submit">
                             Add Friend
                             <svg aria-hidden="true" data-prefix="fas" data-icon="user-plus" class="fill-current w-4 h-4 ml-1 text-white svg-inline--fa fa-user-plus fa-w-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -67,47 +67,9 @@
 <script>
     export default {
         middleware: 'auth',
-        // url = this.$route.params.id,
-        // created() {
-        //     this.getUser()
-        // },
-        // methods: {
-            // async getUser() {
-            //     console.log(this.$route.params.id)
-            //     this.$axios.$get('/api/user/'+this.$route.params.id)
-            //         .then((resp)=>{
-            //             this.user = resp.user
-            //             this.isFriendsWith = resp.isFriendsWith
-            //             this.friendRequestSentTo = resp.friendRequestSentTo
-            //             this.friendRequestSentFrom = resp.friendRequestSentFrom
-            //         })
-            //         .catch((err)=>{console.log(err)})
-            // },
-            // addFriend() {
-            //     this.$axios.$post('/api/friends/'+this.$route.params.id)
-            //         .then((resp) => this.getUser())
-            //         .catch((err)=>{console.log(err)})
-            // },
-            // acceptFriend() {
-            //     this.$axios.$patch('/api/friends/'+this.$route.params.id)
-            //         .then((resp) => this.getUser())
-            //         .catch((err)=>{console.log(err)})
-            // },
-            // denyFriend() {
-            //     this.$axios.$get('/api/friends/'+this.$route.params.id)
-            //         .then((resp) => this.getUser())
-            //         .catch((err)=>{console.log(err)})
-            // },
-            // deleteFriend() {
-            //     this.$axios.$delete('/api/friends/'+this.$route.params.id)
-            //         .then((resp) => this.getUser())
-            //         .catch((err)=>{console.log(err)})
-            // }
-        // }
+
         async asyncData({app, params}) {
-            console.log(params)
-            const { data } = await app.$getUser(params.id)
-            console.log(data)
+            const { data } = await app.$get(params.id)
             return {
                 user: data.user,
                 isFriendsWith: data.isFriendsWith,
@@ -118,7 +80,7 @@
 
         methods: {
             async getFriend () {
-                const {data} = await getUser()
+                const {data} = await this.$getFriend(this.$route.params.id)
                 this.user = data.user
                 this.isFriendsWith = data.isFriendsWith
                 this.friendRequestSentTo = data.friendRequestSentTo
@@ -126,7 +88,7 @@
             },
 
             async getUpdateFriend () {
-                const {data} = await getUser()
+                const {data} = await this.$getUpdateFriend(this.$route.params.id)
                 this.user = data.user
                 this.isFriendsWith = data.isFriendsWith
                 this.friendRequestSentTo = data.friendRequestSentTo
@@ -134,7 +96,7 @@
             },
 
             async getDenyFriend () {
-                const {data} = await getUser()
+                const {data} = await this.$getDenyFriend(this.$route.params.id)
                 this.user = data.user
                 this.isFriendsWith = data.isFriendsWith
                 this.friendRequestSentTo = data.friendRequestSentTo
@@ -142,15 +104,12 @@
             },
 
             async getDeleteFriend () {
-                const {data} = await getUser()
+                const {data} = await this.$getDeleteFriend(this.$route.params.id)
                 this.user = data.user
                 this.isFriendsWith = data.isFriendsWith
                 this.friendRequestSentTo = data.friendRequestSentTo
                 this.friendRequestSentFrom = data.friendRequestSentFrom
             }
         },
-
-    }
-
     }
 </script>
