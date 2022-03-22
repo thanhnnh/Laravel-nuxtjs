@@ -29,6 +29,7 @@
 </template>
 
 <script>
+
   export default {
       middleware: 'auth',
       // props: ['chats', 'userid', 'friendid'],
@@ -41,17 +42,36 @@
           }
       },
 
-      async asyncData({app, params}) {
-          console.log(params)
-          const { data } = await app.$getHistoryMessageApi(params.id)
-          return {
-              messages: data.messages,
-              friendId: data.friend_id,
-              userId: data.user_id
+      // async asyncData({app, params}) {
+      //     console.log(params)
+      //     const { data } = await app.$getHistoryMessageApi(params.id)
+      //     console.log(data)
+      //     return {
+      //         messages: data.messages,
+      //         friendId: data.friend_id,
+      //         userId: data.user_id
+      //     }
+      // },
+
+      created() {
+
+          if (friendId !== undefined) {
+             this.$echo.private('chat-room.' + friendId + '.' + userId)
+                 .listen('ChatRoomBroadCast', (e) => {
+                      this.message.push(e.chatRoom);
+                      this.scrollToBottom();
+                 });
           }
       },
 
       methods: {
+          async getHistorychat() {
+              const { data } = await app.$getHistoryMessageApi(this.$route.params.id)
+              this.messages = data.messages,
+              this.friendId = data.friend_id,
+              this.userId = data.user_id
+          },
+
           async  sendChat() {
               let data = {
                   message: this.message,
@@ -59,9 +79,15 @@
                   friend_id: this.friendId
               }
               await this.$sendMessageApi(data)
-              console.log(data)
               this.friend = data.friend
-          }
+              this.message = "";
+          },
+
+          scrollToBottom: function() {
+              setTimeout(function () {
+                  $("html, body").animate({ scrollTop: $('.direct-chat-primary').height() }, 100);
+              }, 0);
+          },
       }
 
   }

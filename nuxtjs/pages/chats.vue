@@ -45,6 +45,11 @@
     export default {
 
         middleware: 'auth',
+        data() {
+            return {
+                friends: []
+            }
+        },
 
         async asyncData({app}) {
             // console.log(params)

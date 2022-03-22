@@ -51,7 +51,7 @@ class ChatModelsProxy
             'friend_id' => $request->friend_id,
             'chats' => $request->message,
         ]);
-//        $chatRoom->load('user');
+        $chatRoom->load('user');
 
         broadcast(new ChatRoomBroadCast($chatRoom))->toOthers();
         return response()->json([

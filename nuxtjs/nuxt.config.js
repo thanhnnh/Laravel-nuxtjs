@@ -35,7 +35,8 @@ export default {
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
         '~/plugins/request',
-        '~/plugins/axios'
+        '~/plugins/axios',
+        // '~/plugins/echo.js'
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
@@ -45,13 +46,15 @@ export default {
     buildModules: [
         // https://go.nuxtjs.dev/tailwindcss
         '@nuxtjs/tailwindcss',
+        '@nuxtjs/laravel-echo',
     ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
         // https://go.nuxtjs.dev/axios
         '@nuxtjs/axios',
-        '@nuxtjs/auth-next'
+        '@nuxtjs/auth-next',
+
     ],
 
     // Axios module configuration: https://go.nuxtjs.dev/config-axios

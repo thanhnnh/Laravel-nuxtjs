@@ -93,6 +93,8 @@ a.nuxt-link-active {
     float: left;
     padding: 30px 15px 0 25px;
     width: 60%;
+    height: 67vh;
+    overflow: scroll;
 }
 
 .sent_msg p {
